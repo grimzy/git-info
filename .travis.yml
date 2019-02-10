@@ -1,6 +1,7 @@
 language: php
 
 php:
+  - '5.5'
   - '5.6'
   - '7.0'
   - '7.1'
@@ -17,10 +18,6 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 
-script: composer run-script test
+script: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
-after_script: ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-
-branches:
-  only:
-    - master
+after_script: - ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT
