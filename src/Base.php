@@ -52,7 +52,7 @@ class Base
      * @param $fileLocation
      * @return bool|string
      */
-    private function readGitInfoJsonFile($fileLocation)
+    private function readGitInfoFromJsonFile($fileLocation)
     {
         try {
             $fileContents = file_get_contents($fileLocation);
