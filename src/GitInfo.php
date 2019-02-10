@@ -2,7 +2,6 @@
 
 namespace Grimzy\GitInfo;
 
-
 class GitInfo
 {
     /**
