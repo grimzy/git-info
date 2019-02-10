@@ -1,0 +1,32 @@
+{
+  "name": "grimzy/git-info",
+  "description": "Utility library to retrieve Git information from a working directory.",
+  "scripts": {
+    "test": "phpunit tests",
+    "lint": "phpcs -- --standard=PSR12 src tests",
+    "lint-fix": "phpcbf -- --standard=PSR12 src tests"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "squizlabs/php_codesniffer": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Grimzy\\GitInfo\\": "src",
+      "Grimzy\\GitInfo\\Tests\\": "tests"
+    }
+  },
+  "type": "library",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Joseph Estefane",
+      "email": "estefanejoe@gmail.com"
+    },
+    {
+      "name": "Numa Quevedo",
+      "email": "numaquavedo1@gmail.com"
+    }
+  ]
+}
