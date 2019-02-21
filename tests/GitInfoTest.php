@@ -14,4 +14,9 @@ class GitInfoTest extends TestCase
         $gitInfo = new GitInfo($path);
         $this->assertEquals($path, $gitInfo->getWorkingDirectory());
     }
+
+    public function testRetrieveGitInfo()
+    {
+
+    }
 }

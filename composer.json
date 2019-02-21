@@ -7,7 +7,7 @@
     "lint-fix": "phpcbf -- --standard=PSR12 src tests"
   },
   "require": {
-    "php": ">=5.5"
+    "php": ">=5.6"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
