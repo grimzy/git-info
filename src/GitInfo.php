@@ -20,15 +20,15 @@ class GitInfo
      */
     public function __construct($path = null, array $commands = [])
     {
-        if(!empty($path)) {
+        if (!empty($path)) {
             $this->path = $path;
         } else {
             $this->path = getcwd();
         }
 
         // Register commands provided.
-        if(!empty($commands)) {
-            foreach($commands as $commandName => $command) {
+        if (!empty($commands)) {
+            foreach ($commands as $commandName => $command) {
                 self::addCommand($commandName, $command);
             }
         }
@@ -40,7 +40,8 @@ class GitInfo
      * @param string $name
      * @param string $command
      */
-    public static function addCommand(string $name, $command) {
+    public static function addCommand(string $name, $command)
+    {
         self::$registeredCommands[$name] = $command;
     }
 
@@ -57,16 +58,16 @@ class GitInfo
 
         $commandResult = [];
         // Only continue if we received any commands.
-        if(!empty($commands)) {
-            foreach($commands as $command){
+        if (!empty($commands)) {
+            foreach ($commands as $command) {
                 // Verify that the command is registered.
-                if(array_key_exists($command, self::$registeredCommands)) {
+                if (array_key_exists($command, self::$registeredCommands)) {
                     // Execute the command and save the result to our array of commands.
                     exec(self::$registeredCommands[$command], $result);
                     $commandResult[$command] = $result;
                     $result = [];
                 } else {
-                    throw new \Exception('Command: '.$command.' not registered.');
+                    throw new \Exception('Command: ' . $command . ' not registered.');
                 }
             }
         }
