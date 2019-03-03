@@ -69,7 +69,7 @@ class GitInfo
                     $commandResult[$command] = $result;
                     $result = [];
                 } else {
-                    throw new \Exception('Command: '.$command.' not registered.');
+                    throw new \Exception('Command: ' . $command . ' not registered.');
                 }
             }
         }
