@@ -10,13 +10,13 @@ class GitInfo
     protected $path;
     protected static $registeredCommands = [
         'latest-commit' => 'git log --format="Revision: %H%nAuthor: %an (%ae)%nDate: %aI%nSubject: %s" -n 1',
-        'all-tags' => 'git tag'
+        'all-tags'      => 'git tag'
     ];
 
     /**
      * GitInfo constructor.
      * @param string $path
-     * @param array $commands
+     * @param array  $commands
      */
     public function __construct($path = null, array $commands = [])
     {
@@ -35,7 +35,7 @@ class GitInfo
     }
 
     /**
-     * Add custom commands
+     * Add custom commands.
      *
      * @param string $name
      * @param string $command
@@ -46,9 +46,10 @@ class GitInfo
     }
 
     /**
-     * This method runs the commands and return the results
+     * This method runs the commands and return the results.
      *
      * @param array $commands
+     *
      * @return array
      */
     public function getInfo(array $commands = [])
@@ -67,16 +68,18 @@ class GitInfo
                     $commandResult[$command] = $result;
                     $result = [];
                 } else {
-                    throw new \Exception('Command: ' . $command . ' not registered.');
+                    throw new \Exception('Command: '.$command.' not registered.');
                 }
             }
         }
         chdir($cwd);
+
         return $commandResult;
     }
 
     /**
      * Get all registered commands
+     *
      * @return array
      */
     public static function getRegisteredCommands()
@@ -85,7 +88,7 @@ class GitInfo
     }
 
     /**
-     * Retrieve the working directory
+     * Retrieve the working directory.
      *
      * @return string
      */
