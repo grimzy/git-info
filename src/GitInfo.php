@@ -24,6 +24,8 @@ class GitInfo
             $this->path = $path;
         } else {
             $this->path = getcwd();
+        } else {
+            $this->path = getcwd();
         }
 
         // Register commands provided.
