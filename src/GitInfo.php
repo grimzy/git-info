@@ -10,11 +10,12 @@ class GitInfo
     protected $path;
     protected static $registeredCommands = [
         'latest-commit' => 'git log --format="Revision: %H%nAuthor: %an (%ae)%nDate: %aI%nSubject: %s" -n 1',
-        'all-tags'      => 'git tag'
+        'all-tags'      => 'git tag',
     ];
 
     /**
      * GitInfo constructor.
+     *
      * @param string $path
      * @param array  $commands
      */
@@ -78,7 +79,7 @@ class GitInfo
     }
 
     /**
-     * Get all registered commands
+     * Get all registered commands.
      *
      * @return array
      */
