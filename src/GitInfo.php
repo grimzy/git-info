@@ -18,10 +18,12 @@ class GitInfo
      * @param string $path
      * @param array $commands
      */
-    public function __construct($path = __DIR__, array $commands = [])
+    public function __construct($path = null, array $commands = [])
     {
         if(!empty($path)) {
             $this->path = $path;
+        } else {
+            $this->path = getcwd();
         }
 
         // Register commands provided.
@@ -59,6 +61,7 @@ class GitInfo
                     // Execute the command and save the result to our array of commands.
                     exec(self::$registeredCommands[$command], $result);
                     $commandResult[$command] = $result;
+                    $result = [];
                 } else {
                     throw new \Exception('Command: '.$command.' not registered.');
                 }
@@ -71,7 +74,7 @@ class GitInfo
      * Get all registered commands
      * @return array
      */
-    public function getRegisteredCommands()
+    public static function getRegisteredCommands()
     {
         return self::$registeredCommands;
     }
