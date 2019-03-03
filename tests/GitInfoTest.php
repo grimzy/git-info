@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class GitInfoTest extends TestCase
 {
-
     public function testPathIsSet()
     {
         $path = './path/to/dir';
