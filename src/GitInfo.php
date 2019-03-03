@@ -52,6 +52,9 @@ class GitInfo
      */
     public function getInfo(array $commands = [])
     {
+        $cwd = getcwd();
+        chdir($this->getWorkingDirectory());
+
         $commandResult = [];
         // Only continue if we received any commands.
         if(!empty($commands)) {
@@ -67,6 +70,7 @@ class GitInfo
                 }
             }
         }
+        chdir($cwd);
         return $commandResult;
     }
 
