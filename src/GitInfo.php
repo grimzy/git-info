@@ -80,7 +80,7 @@ class GitInfo
             }
         } else {
             // Execute all the commands registered.
-            foreach(self::$registeredCommands as $commandKey => $command) {
+            foreach (self::$registeredCommands as $commandKey => $command) {
                 $commandResult[$command] = $this->executeCommand(self::$registeredCommands[$commandKey]);
             }
         }
