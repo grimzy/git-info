@@ -11,6 +11,14 @@ class GitInfo
     protected static $registeredCommands = [
         'latest-commit' => 'git log --format="Revision: %H%nAuthor: %an (%ae)%nDate: %aI%nSubject: %s" -n 1',
         'all-tags'      => 'git tag',
+        'commit-hash-long'  => 'git log -1 --pretty=%H',
+        'commit-hash-short' => 'git log -1 --pretty=%h',
+        'author-name'       => 'git log -1 --pretty=%aN',
+        'author-email'      => 'git log -1 --pretty=%aE',
+        'author-date'       => 'git log -1 --pretty=%aI',
+        'subject'           => 'git log -1 --pretty=%s',
+        'branch'            => 'git rev-parse --abbrev-ref HEAD',
+        'version'           => 'git describe --always --tags --abbrev=0'
     ];
 
     /**
@@ -65,12 +73,15 @@ class GitInfo
                 // Verify that the command is registered.
                 if (array_key_exists($command, self::$registeredCommands)) {
                     // Execute the command and save the result to our array of commands.
-                    exec(self::$registeredCommands[$command], $result);
-                    $commandResult[$command] = $result;
-                    $result = [];
+                    $commandResult[$command] = $this->executeCommand(self::$registeredCommands[$command]);
                 } else {
                     throw new \Exception('Command: ' . $command . ' not registered.');
                 }
+            }
+        } else {
+            // Execute all the commands registered.
+            foreach(self::$registeredCommands as $commandKey => $command) {
+                $commandResult[$command] = $this->executeCommand(self::$registeredCommands[$commandKey]);
             }
         }
         chdir($cwd);
@@ -96,5 +107,18 @@ class GitInfo
     public function getWorkingDirectory()
     {
         return $this->path;
+    }
+
+    /**
+     * This method executes the given command and returns the result.
+     *
+     * @param $command
+     *
+     * @return mixed
+     */
+    private function executeCommand($command)
+    {
+        exec($command, $result);
+        return $result;
     }
 }
