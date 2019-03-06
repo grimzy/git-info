@@ -119,6 +119,6 @@ class GitInfo
     private function executeCommand($command)
     {
         exec($command, $result);
-        return $result;
+        return $result[0];
     }
 }
