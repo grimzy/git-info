@@ -61,7 +61,7 @@ class GitInfo
      *
      * @return array
      */
-    public function getInfo(array $commands = [])
+    public function getInfo($commands = null)
     {
         $cwd = getcwd();
         chdir($this->getWorkingDirectory());
@@ -69,19 +69,18 @@ class GitInfo
         $commandResult = [];
         // Only continue if we received any commands.
         if (!empty($commands)) {
-            foreach ($commands as $command) {
-                // Verify that the command is registered.
-                if (array_key_exists($command, self::$registeredCommands)) {
+            if(is_array($commands)) {
+                foreach ($commands as $command) {
                     // Execute the command and save the result to our array of commands.
-                    $commandResult[$command] = $this->executeCommand(self::$registeredCommands[$command]);
-                } else {
-                    throw new \Exception('Command: ' . $command . ' not registered.');
+                    $commandResult[$command] = $this->executeCommand($command);
                 }
+            } else if(is_string($commands)) {
+                return $this->executeCommand($commands);
             }
         } else {
             // Execute all the commands registered.
             foreach (self::$registeredCommands as $commandKey => $command) {
-                $commandResult[$command] = $this->executeCommand(self::$registeredCommands[$commandKey]);
+                $commandResult[$command] = $this->executeCommand($commandKey);
             }
         }
         chdir($cwd);
@@ -116,9 +115,19 @@ class GitInfo
      *
      * @return mixed
      */
-    private function executeCommand($command)
+    private function executeCommand($commandKey)
     {
-        exec($command, $result);
-        return $result[0];
+        if(array_key_exists($commandKey, self::$registeredCommands)) {
+            exec(self::$registeredCommands[$commandKey], $result);
+            if(is_array($result)){
+                if(count($result) === 1){
+                    return $result[0];
+                } else {
+                    return $result;
+                }
+            }
+        } else {
+            throw new \Exception('Command: ' . $commandKey . ' not registered.');
+        }
     }
 }
