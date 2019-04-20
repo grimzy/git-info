@@ -93,7 +93,7 @@ class GitInfoCommandTest extends TestCase
         $commitDate = str_replace('Date: ','', $info['latest-commit'][2]);
         $tempDate = new \DateTime($commitDate);
         $tempDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-        $info['latest-commit'][2] = 'Date: '.$tempDate->format('c');
+        $info['latest-commit'][2] = 'Date: ' . $tempDate->format('c');
 
         $latestCommit = [
             'latest-commit' => [
