@@ -69,12 +69,12 @@ class GitInfo
         $commandResult = [];
         // Only continue if we received any commands.
         if (!empty($commands)) {
-            if(is_array($commands)) {
+            if (is_array($commands)) {
                 foreach ($commands as $command) {
                     // Execute the command and save the result to our array of commands.
                     $commandResult[$command] = $this->executeCommand($command);
                 }
-            } else if(is_string($commands)) {
+            } elseif (is_string($commands)) {
                 return $this->executeCommand($commands);
             }
         } else {
@@ -117,10 +117,10 @@ class GitInfo
      */
     private function executeCommand($commandKey)
     {
-        if(array_key_exists($commandKey, self::$registeredCommands)) {
+        if (array_key_exists($commandKey, self::$registeredCommands)) {
             exec(self::$registeredCommands[$commandKey], $result);
-            if(is_array($result)){
-                if(count($result) === 1){
+            if (is_array($result)) {
+                if (count($result) === 1) {
                     return $result[0];
                 } else {
                     return $result;
