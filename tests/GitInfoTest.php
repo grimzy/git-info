@@ -41,19 +41,25 @@ class GitInfoTest extends TestCase
         $this->assertEquals([
             'latest-commit' => 'git log --format="Revision: %H%nAuthor: %an (%ae)%nDate: %aI%nSubject: %s" -n 1',
             'all-tags' => 'git tag',
-            'commit-hash' => 'echo 123bcsS'
+            'commit-hash' => 'echo 123bcsS',
+            'commit-hash-long'  => 'git log -1 --pretty=%H',
+            'commit-hash-short' => 'git log -1 --pretty=%h',
+            'author-name'       => 'git log -1 --pretty=%aN',
+            'author-email'      => 'git log -1 --pretty=%aE',
+            'author-date'       => 'git log -1 --pretty=%aI',
+            'subject'           => 'git log -1 --pretty=%s',
+            'branch'            => 'git rev-parse --abbrev-ref HEAD',
+            'version'           => 'git describe --always --tags --abbrev=0'
         ], $commands);
     }
 
     public function testAddCommand()
     {
         $gitInfo = new GitInfo();
-        $commands = $gitInfo->getRegisteredCommands();
-        $this->assertEquals([], $commands);
 
         GitInfo::addCommand('commit-hash2', 'echo 456aedL');
         $commands = $gitInfo->getRegisteredCommands();
-        $this->assertEquals(['commit-hash2' => 'echo 456aedL'], $commands);
+        $this->assertArrayHasKey('commit-hash2', $commands);
     }
 
     public function testReturnsGitInfoForSingleCommandAsString()
