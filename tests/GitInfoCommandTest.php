@@ -79,7 +79,8 @@ class GitInfoCommandTest extends TestCase
 
     public function testReturnsLatestCommit()
     {
-        $revision = trim(array_pop(explode(' ', self::$init[4])));
+        $revision = explode(' ', self::$init[4]);
+        $revision = trim(array_pop($revision));
         $subject = trim(self::$init[8]);
         $date = explode(' ', self::$init[6]);
         array_shift($date);
