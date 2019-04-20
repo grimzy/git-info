@@ -90,7 +90,7 @@ class GitInfoCommandTest extends TestCase
         $info = $gitInfo->getInfo(['latest-commit']);
 
         // Here we convert the date of the test commit to be UTC so it is the same as the system.
-        $commitDate = str_replace('Date: ','', $info['latest-commit'][2]);
+        $commitDate = str_replace('Date: ', '', $info['latest-commit'][2]);
         $tempDate = new \DateTime($commitDate);
         $tempDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
         $info['latest-commit'][2] = 'Date: '.$tempDate->format('c');
