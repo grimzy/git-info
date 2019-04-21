@@ -60,6 +60,7 @@ class GitInfoTest extends TestCase
         GitInfo::addCommand('commit-hash2', 'echo 456aedL');
         $commands = $gitInfo->getRegisteredCommands();
         $this->assertArrayHasKey('commit-hash2', $commands);
+        $this->assertEquals('echo 456aedL', $commands['commit-hash2']);
     }
 
     public function testReturnsGitInfoForSingleCommandAsString()
