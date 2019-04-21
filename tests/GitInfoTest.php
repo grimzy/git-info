@@ -98,4 +98,11 @@ class GitInfoTest extends TestCase
         $this->expectExceptionMessage('Command: does-not-exist not registered.');
         $gitInfo->getInfo(['does-not-exist']);
     }
+
+    public function testGitInfoCallWithoutCommandsParameter()
+    {
+        $gitInfo = new GitInfo();
+        $allGitInfoCommandsResult = $gitInfo->getInfo();
+        $this->assertNotEmpty($allGitInfoCommandsResult);
+    }
 }
