@@ -11,6 +11,14 @@ class GitInfo
     protected static $registeredCommands = [
         'latest-commit' => 'git log --format="Revision: %H%nAuthor: %an (%ae)%nDate: %aI%nSubject: %s" -n 1',
         'all-tags'      => 'git tag',
+        'commit-hash-long'  => 'git log -1 --pretty=%H',
+        'commit-hash-short' => 'git log -1 --pretty=%h',
+        'author-name'       => 'git log -1 --pretty=%aN',
+        'author-email'      => 'git log -1 --pretty=%aE',
+        'author-date'       => 'git log -1 --pretty=%aI',
+        'subject'           => 'git log -1 --pretty=%s',
+        'branch'            => 'git rev-parse --abbrev-ref HEAD',
+        'version'           => 'git describe --always --tags --abbrev=0'
     ];
 
     /**
@@ -53,7 +61,7 @@ class GitInfo
      *
      * @return array
      */
-    public function getInfo(array $commands = [])
+    public function getInfo($commands = null)
     {
         $cwd = getcwd();
         chdir($this->getWorkingDirectory());
@@ -61,16 +69,18 @@ class GitInfo
         $commandResult = [];
         // Only continue if we received any commands.
         if (!empty($commands)) {
-            foreach ($commands as $command) {
-                // Verify that the command is registered.
-                if (array_key_exists($command, self::$registeredCommands)) {
+            if (is_array($commands)) {
+                foreach ($commands as $command) {
                     // Execute the command and save the result to our array of commands.
-                    exec(self::$registeredCommands[$command], $result);
-                    $commandResult[$command] = $result;
-                    $result = [];
-                } else {
-                    throw new \Exception('Command: ' . $command . ' not registered.');
+                    $commandResult[$command] = $this->executeCommand($command);
                 }
+            } elseif (is_string($commands)) {
+                return $this->executeCommand($commands);
+            }
+        } else {
+            // Execute all the commands registered.
+            foreach (self::$registeredCommands as $commandKey => $command) {
+                $commandResult[$command] = $this->executeCommand($commandKey);
             }
         }
         chdir($cwd);
@@ -96,5 +106,28 @@ class GitInfo
     public function getWorkingDirectory()
     {
         return $this->path;
+    }
+
+    /**
+     * This method executes the given command and returns the result.
+     *
+     * @param $command
+     *
+     * @return mixed
+     */
+    private function executeCommand($commandKey)
+    {
+        if (array_key_exists($commandKey, self::$registeredCommands)) {
+            exec(self::$registeredCommands[$commandKey], $result);
+            if (is_array($result)) {
+                if (count($result) === 1) {
+                    return $result[0];
+                } else {
+                    return $result;
+                }
+            }
+        } else {
+            throw new \Exception('Command: ' . $commandKey . ' not registered.');
+        }
     }
 }
