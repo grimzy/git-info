@@ -1,36 +1,36 @@
 {
-  "name": "grimzy/git-info",
-  "description": "Utility library to retrieve Git information from a working directory.",
-  "scripts": {
-    "test": "phpunit",
-    "lint": "phpcs -- --standard=PSR12 src tests",
-    "lint-fix": "phpcbf -- --standard=PSR12 src tests"
-  },
-  "require": {
-    "php": ">=7.1"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "*",
-    "squizlabs/php_codesniffer": "*",
-    "spatie/temporary-directory": "dev-master"
-  },
-  "autoload": {
-    "psr-4": {
-      "Grimzy\\GitInfo\\": "src",
-      "Grimzy\\GitInfo\\Tests\\": "tests"
-    }
-  },
-  "type": "library",
-  "minimum-stability": "dev",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Joseph Estefane",
-      "email": "estefanejoe@gmail.com"
+    "name": "grimzy/git-info",
+    "description": "Utility library to retrieve Git information from a working directory.",
+    "scripts": {
+        "test": "phpunit",
+        "lint": "phpcs -- --standard=PSR12 src tests",
+        "lint-fix": "phpcbf -- --standard=PSR12 src tests"
     },
-    {
-      "name": "Numa Quevedo",
-      "email": "numaquevedo1@gmail.com"
-    }
-  ]
+    "require": {
+        "php": ">=7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "spatie/temporary-directory": "^1.2 || ^1.1",
+        "squizlabs/php_codesniffer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Grimzy\\GitInfo\\": "src",
+            "Grimzy\\GitInfo\\Tests\\": "tests"
+        }
+    },
+    "type": "library",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joseph Estefane",
+            "email": "estefanejoe@gmail.com"
+        },
+        {
+            "name": "Numa Quevedo",
+            "email": "numaquevedo1@gmail.com"
+        }
+    ]
 }
