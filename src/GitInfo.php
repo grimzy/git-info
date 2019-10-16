@@ -94,15 +94,15 @@ class GitInfo
             if (is_array($commands)) {
                 foreach ($commands as $command) {
                     // Execute the command and save the result to results.
-                    $commandResult[$command] = $this->_executeCommand($command);
+                    $commandResult[$command] = $this->executeCommand($command);
                 }
             } elseif (is_string($commands)) {
-                return $this->_executeCommand($commands);
+                return $this->executeCommand($commands);
             }
         } else {
             // Execute all the commands registered.
             foreach (self::$registeredCommands as $commandKey => $command) {
-                $commandResult[$command] = $this->_executeCommand($commandKey);
+                $commandResult[$command] = $this->executeCommand($commandKey);
             }
         }
         chdir($cwd);
@@ -138,7 +138,7 @@ class GitInfo
      * @return mixed
      * @throws \Exception
      */
-    private function _executeCommand($name)
+    private function executeCommand($name)
     {
         if (array_key_exists($name, self::$registeredCommands)) {
             exec(self::$registeredCommands[$name], $result);
