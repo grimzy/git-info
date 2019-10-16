@@ -1,17 +1,19 @@
 # GitInfo
 [![Build Status](https://travis-ci.org/grimzy/git-info.svg?branch=master)](https://travis-ci.org/grimzy/git-info) [![Maintainability](https://api.codeclimate.com/v1/badges/a470ddc2d9cec40c6b2f/maintainability)](https://codeclimate.com/github/grimzy/git-info/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/a470ddc2d9cec40c6b2f/test_coverage)](https://codeclimate.com/github/grimzy/git-info/test_coverage) [![StyleCI](https://github.styleci.io/repos/145178864/shield?branch=master)](https://github.styleci.io/repos/145178864)
 
-Utility library to retrieve Git information from a working directory.
+> Utility library to retrieve Git information from a working directory.
 
 **Minimum requirement:** PHP 7.1
 
-
+----
 
 ## Installation
 
 ```shell
 composer require git-info
 ```
+
+
 
 ## Usage
 
@@ -51,34 +53,6 @@ $info = $gitInfo->getInfo('version');
 ```
 
 
-
-## Working directory
-
-### Get the working directory
-
-The default working directory is set using [`getcwd()`](http://php.net/manual/en/function.getcwd.php).
-
-```php
-$gitInfo = new \Grimzy\GitInfo\GitInfo();
-$gwd = $gitInfo->getWorkingDirectory();
-// $gwd = '/absolute/path/to/working/directory'
-```
-
-### Set the working directory
-
-```php
-// When instantiating GitInfo
-$gitInfo = new \Grimzy\GitInfo\GitInfo('absolute/or/relative/path');
-
-// OR
-
-// Using setWorkingDirectory(string $path);
-$gitInfo = new \Grimzy\GitInfo\GitInfo();
-$gitInfo->setWorkingDirectory('absolute/or/relative/path');
-
-$gwd = $gitInfo->getWorkingDirectory();
-// $gwd = '/absolute/path/or/absolute/path/of/relative/path'
-```
 
 ## Commands
 
@@ -126,15 +100,38 @@ $info = $gitInfo->getInfo('status');
 // $info = THE STATUS
 ```
 
-## Tests
 
-```shell
-composer test
+
+## Working directory
+
+### Set the working directory
+
+You can set the working directory when instantiating a new instance of `GitInfo`:
+
+```php
+// When instantiating GitInfo
+$gitInfo = new \Grimzy\GitInfo\GitInfo('absolute/or/relative/path');
 ```
 
-## Contributing
+> The default working directory is set using [`getcwd()`](http://php.net/manual/en/function.getcwd.php).
 
-TODO: document
+### Get the working directory
+
+```php
+$gitInfo = new \Grimzy\GitInfo\GitInfo();
+$gwd = $gitInfo->getWorkingDirectory();
+// $gwd = '/absolute/path/to/working/directory'
+```
+
+
+
+## Tests
+
+```sh
+$ composer test
+```
+
+
 
 ## Licence
 
