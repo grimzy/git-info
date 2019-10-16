@@ -10,7 +10,7 @@
         "php": ">=7.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
+        "phpunit/phpunit": "^8.0 || ^7.0",
         "spatie/temporary-directory": "^1.2 || ^1.1",
         "squizlabs/php_codesniffer": "*"
     },
@@ -21,7 +21,7 @@
         }
     },
     "type": "library",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
         {
