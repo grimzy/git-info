@@ -79,7 +79,8 @@ class GitInfoCommandTest extends TestCase
 
     public function testReturnsLatestCommit()
     {
-        $revision = trim(array_pop(explode(' ', self::$init[4])));
+        $revision = explode(' ', self::$init[4]);
+        $revision = trim(array_pop($revision));
         $subject = trim(self::$init[8]);
         $date = explode(' ', self::$init[6]);
         array_shift($date);
@@ -88,14 +89,23 @@ class GitInfoCommandTest extends TestCase
         $path = self::$repo->path();
         $gitInfo = new GitInfo($path);
         $info = $gitInfo->getInfo(['latest-commit']);
-        $this->assertEquals([
+
+        // Here we convert the date of the test commit to be UTC so it is the same as the system.
+        $commitDate = str_replace('Date: ', '', $info['latest-commit'][2]);
+        $tempDate = new \DateTime($commitDate);
+        $tempDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+        $info['latest-commit'][2] = 'Date: ' . $tempDate->format('c');
+
+        $latestCommit = [
             'latest-commit' => [
                 0 => 'Revision: ' . $revision,
                 1 => 'Author: Test Suite (tests@git-info)',
                 2 => 'Date: ' . $date,
                 3 => 'Subject: ' . $subject
             ]
-        ], $info);
+        ];
+
+        $this->assertEquals($latestCommit, $info);
     }
 
     public function testReturnsAllTags()
