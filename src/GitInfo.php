@@ -2,30 +2,48 @@
 
 namespace Grimzy\GitInfo;
 
+/**
+ * Class GitInfo.
+ *
+ * @category Utility
+ * @package  Grimzy\GitInfo
+ * @author   Joseph Estefane <estefanejoe@gmail.com>
+ * @author   Numa Quevedo <numaquevedo1@gmail.com>
+ * @license  MIT https://github.com/grimzy/git-info/blob/master/LICENSE
+ * @link     https://github.com/grimzy/git-info
+ */
 class GitInfo
 {
-    /**
-     * @var
-     */
     protected $path;
+
+    /**
+     * Array holding all registered commands.
+     * Starts with predefined set of commands.
+     *
+     * @var string[]
+     */
     protected static $registeredCommands = [
-        'latest-commit' => 'git log --format="Revision: %H%nAuthor: %an (%ae)%nDate: %aI%nSubject: %s" -n 1',
-        'all-tags'      => 'git tag',
-        'commit-hash-long'  => 'git log -1 --pretty=%H',
+        'latest-commit' =>
+            'git log --format="Revision: %H%nAuthor: %an (%ae)%n'
+            . 'Date: %aI%nSubject: %s" -n 1',
+        'all-tags' => 'git tag',
+        'commit-hash-long' => 'git log -1 --pretty=%H',
         'commit-hash-short' => 'git log -1 --pretty=%h',
-        'author-name'       => 'git log -1 --pretty=%aN',
-        'author-email'      => 'git log -1 --pretty=%aE',
-        'author-date'       => 'git log -1 --pretty=%aI',
-        'subject'           => 'git log -1 --pretty=%s',
-        'branch'            => 'git rev-parse --abbrev-ref HEAD',
-        'version'           => 'git describe --always --tags --abbrev=0'
+        'author-name' => 'git log -1 --pretty=%aN',
+        'author-email' => 'git log -1 --pretty=%aE',
+        'author-date' => 'git log -1 --pretty=%aI',
+        'subject' => 'git log -1 --pretty=%s',
+        'branch' => 'git rev-parse --abbrev-ref HEAD',
+        'version' => 'git describe --always --tags --abbrev=0'
     ];
 
     /**
      * GitInfo constructor.
      *
-     * @param string $path
-     * @param array  $commands
+     * @param string|null $path     The current working directory.
+     *                              Defaults to getcwd()
+     * @param string[]    $commands List of commands to add to
+     *                              GitInfo::$registeredCommands
      */
     public function __construct($path = null, array $commands = [])
     {
@@ -46,8 +64,10 @@ class GitInfo
     /**
      * Add custom commands.
      *
-     * @param string $name
-     * @param string $command
+     * @param string $name    The command's name
+     * @param string $command The command
+     *
+     * @return void
      */
     public static function addCommand(string $name, $command)
     {
@@ -57,9 +77,11 @@ class GitInfo
     /**
      * This method runs the commands and return the results.
      *
-     * @param array $commands
+     * @param string|string[]|null $commands Command or list of commands to run
+     *                                       If null, runs all registered commands
      *
-     * @return array
+     * @return string|array
+     * @throws \Exception
      */
     public function getInfo($commands = null)
     {
@@ -71,16 +93,16 @@ class GitInfo
         if (!empty($commands)) {
             if (is_array($commands)) {
                 foreach ($commands as $command) {
-                    // Execute the command and save the result to our array of commands.
-                    $commandResult[$command] = $this->executeCommand($command);
+                    // Execute the command and save the result to results.
+                    $commandResult[$command] = $this->_executeCommand($command);
                 }
             } elseif (is_string($commands)) {
-                return $this->executeCommand($commands);
+                return $this->_executeCommand($commands);
             }
         } else {
             // Execute all the commands registered.
             foreach (self::$registeredCommands as $commandKey => $command) {
-                $commandResult[$command] = $this->executeCommand($commandKey);
+                $commandResult[$command] = $this->_executeCommand($commandKey);
             }
         }
         chdir($cwd);
@@ -111,14 +133,15 @@ class GitInfo
     /**
      * This method executes the given command and returns the result.
      *
-     * @param $command
+     * @param string $name The name of the command to execute
      *
      * @return mixed
+     * @throws \Exception
      */
-    private function executeCommand($commandKey)
+    private function _executeCommand($name)
     {
-        if (array_key_exists($commandKey, self::$registeredCommands)) {
-            exec(self::$registeredCommands[$commandKey], $result);
+        if (array_key_exists($name, self::$registeredCommands)) {
+            exec(self::$registeredCommands[$name], $result);
             if (is_array($result)) {
                 if (count($result) === 1) {
                     return $result[0];
@@ -126,8 +149,7 @@ class GitInfo
                     return $result;
                 }
             }
-        } else {
-            throw new \Exception('Command: ' . $commandKey . ' not registered.');
         }
+        throw new \Exception('Command: ' . $name . ' not registered.');
     }
 }
