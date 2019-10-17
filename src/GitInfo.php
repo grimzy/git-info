@@ -2,6 +2,7 @@
 
 namespace Grimzy\GitInfo;
 
+use Exception;
 /**
  * Class GitInfo.
  *
@@ -47,7 +48,7 @@ class GitInfo
      */
     public function __construct($path = null, array $commands = [])
     {
-        $this->path = $path ?? getcwd();
+        $this->path = !empty($path) ? $path : getcwd();
 
         // Register commands provided.
         if (!empty($commands)) {
@@ -147,6 +148,6 @@ class GitInfo
                 return $result;
             }
         }
-        throw new \Exception('Command: ' . $name . ' not registered.');
+        throw new Exception('Command: ' . $name . ' not registered.');
     }
 }
