@@ -3,6 +3,7 @@
 namespace Grimzy\GitInfo;
 
 use Exception;
+
 /**
  * Class GitInfo.
  *
