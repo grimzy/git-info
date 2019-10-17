@@ -2,6 +2,8 @@
 
 namespace Grimzy\GitInfo;
 
+use Exception;
+
 /**
  * Class GitInfo.
  *
@@ -47,11 +49,7 @@ class GitInfo
      */
     public function __construct($path = null, array $commands = [])
     {
-        if (!empty($path)) {
-            $this->path = $path;
-        } else {
-            $this->path = getcwd();
-        }
+        $this->path = !empty($path) ? $path : getcwd();
 
         // Register commands provided.
         if (!empty($commands)) {
@@ -99,12 +97,14 @@ class GitInfo
             } elseif (is_string($commands)) {
                 return $this->executeCommand($commands);
             }
-        } else {
-            // Execute all the commands registered.
-            foreach (self::$registeredCommands as $commandKey => $command) {
-                $commandResult[$command] = $this->executeCommand($commandKey);
-            }
+            return $commandResult;
         }
+
+        // Execute all the commands registered.
+        foreach (self::$registeredCommands as $commandKey => $command) {
+            $commandResult[$command] = $this->executeCommand($commandKey);
+        }
+
         chdir($cwd);
 
         return $commandResult;
@@ -145,11 +145,10 @@ class GitInfo
             if (is_array($result)) {
                 if (count($result) === 1) {
                     return $result[0];
-                } else {
-                    return $result;
                 }
+                return $result;
             }
         }
-        throw new \Exception('Command: ' . $name . ' not registered.');
+        throw new Exception('Command: ' . $name . ' not registered.');
     }
 }
