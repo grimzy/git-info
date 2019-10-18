@@ -142,13 +142,26 @@ class GitInfo
     {
         if (array_key_exists($name, self::$registeredCommands)) {
             exec(self::$registeredCommands[$name], $result);
-            if (is_array($result)) {
-                if (count($result) === 1) {
-                    return $result[0];
-                }
-                return $result;
-            }
+            return $this->commandResultString($result);
         }
         throw new Exception('Command: ' . $name . ' not registered.');
+    }
+
+    /**
+     * This method returns the results from a command.
+     * When $result has only one line, return as string.
+     *
+     * @param string[] $result The results from running a command
+     *
+     * @return string|array
+     */
+    private function commandResultString(array $result)
+    {
+        if (is_array($result)) {
+            if (count($result) === 1) {
+                return $result[0];
+            }
+            return $result;
+        }
     }
 }
